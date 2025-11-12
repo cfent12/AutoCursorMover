@@ -52,10 +52,10 @@ namespace AutoCursorMover
             InitializeComponent();
 
             trayMenu = new ContextMenuStrip();
-            trayMenu.Items.Add("열기", null, OnOpen);
+            trayMenu.Items.Add("Open", null, OnOpen);
             trayMenu.Items.Add("START", null, button1_Click);
             trayMenu.Items.Add("STOP", null, button2_Click);
-            trayMenu.Items.Add("종료", null, OnExit);
+            trayMenu.Items.Add("Exit", null, OnExit);
 
             trayIcon = new NotifyIcon();
             trayIcon.Text = "AutoCursorMover";
