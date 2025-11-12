@@ -7,6 +7,7 @@ namespace AutoCursorMover
 {
     public partial class Form1 : Form
     {
+        #region mouse input
         [StructLayout(LayoutKind.Sequential)]
         struct INPUT
         {
@@ -31,6 +32,12 @@ namespace AutoCursorMover
         private const uint INPUT_MOUSE = 0;
         private const uint MOUSEEVENTF_MOVE = 0x0001;
         private const uint MOUSEEVENTF_ABSOLUTE = 0x8000;
+        #endregion
+
+        #region tray
+        private NotifyIcon trayIcon;
+        private ContextMenuStrip trayMenu;
+        #endregion
 
         private int screenWidth = 0;
         private int screenHeight = 0;
@@ -43,6 +50,18 @@ namespace AutoCursorMover
         public Form1()
         {
             InitializeComponent();
+
+            trayMenu = new ContextMenuStrip();
+            trayMenu.Items.Add("열기", null, OnOpen);
+            trayMenu.Items.Add("START", null, button1_Click);
+            trayMenu.Items.Add("STOP", null, button2_Click);
+            trayMenu.Items.Add("종료", null, OnExit);
+
+            trayIcon = new NotifyIcon();
+            trayIcon.Text = "AutoCursorMover";
+            trayIcon.Icon = this.Icon;
+            trayIcon.ContextMenuStrip = trayMenu;
+            trayIcon.DoubleClick += OnOpen;
 
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -60,6 +79,42 @@ namespace AutoCursorMover
                     label3.Text = remainTime.ToString();
                 }
             };
+        }
+
+        private void OnOpen(object sender, EventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            Activate();
+            trayIcon.Visible = false;
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (WindowState == FormWindowState.Minimized)
+            {
+                HideToTray();
+            }
+        }
+
+        private void HideToTray()
+        {
+            trayIcon.Visible = true;
+            Hide();
+        }
+
+        private void OnExit(object sender, EventArgs e)
+        {
+            trayIcon.Visible = false;
+            Application.Exit();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            trayIcon.Visible = false;
+            base.OnFormClosing(e);
         }
 
         private void MoveCursor()
