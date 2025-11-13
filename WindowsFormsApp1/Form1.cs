@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace AutoCursorMover
 {
@@ -37,6 +38,9 @@ namespace AutoCursorMover
         #region tray
         private NotifyIcon trayIcon;
         private ContextMenuStrip trayMenu;
+
+        private ToolStripMenuItem trayMenuStart;
+        private ToolStripMenuItem trayMenuStop;
         #endregion
 
         private int screenWidth = 0;
@@ -59,9 +63,13 @@ namespace AutoCursorMover
 
             trayIcon = new NotifyIcon();
             trayIcon.Text = "AutoCursorMover";
-            trayIcon.Icon = this.Icon;
+            trayIcon.Icon = Icon;
             trayIcon.ContextMenuStrip = trayMenu;
             trayIcon.DoubleClick += OnOpen;
+
+            trayMenuStart = trayMenu.Items.OfType<ToolStripMenuItem>().FirstOrDefault(item => item.Text == "START");
+            trayMenuStop = trayMenu.Items.OfType<ToolStripMenuItem>().FirstOrDefault(item => item.Text == "STOP");
+            trayMenuStop.Checked = true;
 
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -122,8 +130,8 @@ namespace AutoCursorMover
             int x = rand.Next(0, screenWidth);
             int y = rand.Next(0, screenHeight);
 
-            int dx = (int)(x * 65535 / screenWidth);
-            int dy = (int)(y * 65535 / screenHeight);
+            int dx = (x * 65535 / screenWidth);
+            int dy = (y * 65535 / screenHeight);
 
             INPUT[] inputs = new INPUT[1];
             inputs[0].type = INPUT_MOUSE;
@@ -139,7 +147,10 @@ namespace AutoCursorMover
 
         private void button1_Click(object sender, EventArgs e)
         {
+            label2.ForeColor = System.Drawing.Color.MediumSeaGreen;
             label2.Text = "START";
+            trayMenuStart.Checked = true;
+            trayMenuStop.Checked = false;
 
             StartMove();
         }
@@ -157,8 +168,11 @@ namespace AutoCursorMover
 
         private void button2_Click(object sender, EventArgs e)
         {
-            label2.Text = "STOP";;
+            label2.ForeColor = System.Drawing.Color.Crimson;
+            label2.Text = "STOP";
             label3.Text = "1";
+            trayMenuStart.Checked = false;
+            trayMenuStop.Checked = true;
 
             moveTimer.Stop();
         }

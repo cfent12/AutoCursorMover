@@ -85,7 +85,7 @@ namespace AutoCursorMover
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.ForeColor = System.Drawing.Color.Crimson;
+            this.label3.ForeColor = System.Drawing.SystemColors.Control;
             this.label3.Location = new System.Drawing.Point(228, 21);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(19, 21);
