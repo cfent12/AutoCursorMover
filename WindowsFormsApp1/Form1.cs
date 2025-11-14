@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Drawing;
 
 namespace AutoCursorMover
 {
@@ -89,6 +90,18 @@ namespace AutoCursorMover
                     label3.Text = remainTime.ToString();
                 }
             };
+
+            KeyDown += Form1_KeyDown;
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1)
+            {
+                AboutForm aboutForm = new AboutForm();
+                aboutForm.Location = new Point(Location.X + Size.Width, Location.Y + (Size.Height/2 - aboutForm.Height/2));
+                aboutForm.Show();
+            }
         }
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
