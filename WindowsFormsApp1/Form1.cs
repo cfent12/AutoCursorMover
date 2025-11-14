@@ -48,8 +48,8 @@ namespace AutoCursorMover
 
         private Timer moveTimer = new Timer();
         private Random rand = new Random();
-        private int cycleTime = 30;
-        private int remainTime = 0;
+        private uint cycleTime = 0;
+        private uint remainTime = 0;
 
         public Form1()
         {
@@ -74,6 +74,8 @@ namespace AutoCursorMover
             screenWidth = Screen.PrimaryScreen.Bounds.Width;
             screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
+            cycleTime = uint.Parse(textBox1.Text);
+
             moveTimer.Interval = 1000;
             moveTimer.Tick += (s, ev) =>
             {
@@ -87,6 +89,21 @@ namespace AutoCursorMover
                     label3.Text = remainTime.ToString();
                 }
             };
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = textBox1.Text.Trim();
+
+            uint input = 0;
+            if (!uint.TryParse(textBox1.Text, out input) || input > uint.MaxValue)
+            {
+                textBox1.Text = "";
+            }
+            else
+            {
+                cycleTime = input;
+            }
         }
 
         private void OnOpen(object sender, EventArgs e)
@@ -147,8 +164,14 @@ namespace AutoCursorMover
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if(textBox1.Text == "")
+            {
+                return;
+            }
+
             label2.ForeColor = System.Drawing.Color.MediumSeaGreen;
             label2.Text = "START";
+            textBox1.Enabled = false;
             trayMenuStart.Checked = true;
             trayMenuStop.Checked = false;
 
@@ -171,6 +194,7 @@ namespace AutoCursorMover
             label2.ForeColor = System.Drawing.Color.Crimson;
             label2.Text = "STOP";
             label3.Text = "1";
+            textBox1.Enabled = true;
             trayMenuStart.Checked = false;
             trayMenuStop.Checked = true;
 
