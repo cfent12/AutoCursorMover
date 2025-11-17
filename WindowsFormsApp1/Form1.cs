@@ -92,6 +92,7 @@ namespace AutoCursorMover
             };
 
             KeyDown += Form1_KeyDown;
+            textBox1.TextChanged += TextBox1_TextChanged;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
