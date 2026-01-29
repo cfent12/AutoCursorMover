@@ -1,41 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Linq;
-using System.Drawing;
 
-namespace AutoCursorMover
+namespace AutoKeyPresser
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        #region mouse input
-        [StructLayout(LayoutKind.Sequential)]
-        struct INPUT
-        {
-            public uint type;
-            public MOUSEINPUT mi;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct MOUSEINPUT
-        {
-            public int dx;
-            public int dy;
-            public uint mouseData;
-            public uint dwFlags;
-            public uint time;
-            public IntPtr dwExtraInfo;
-        }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
-
-        private const uint INPUT_MOUSE = 0;
-        private const uint MOUSEEVENTF_MOVE = 0x0001;
-        private const uint MOUSEEVENTF_ABSOLUTE = 0x8000;
-        #endregion
-
         #region tray
         private NotifyIcon trayIcon;
         private ContextMenuStrip trayMenu;
@@ -44,15 +15,14 @@ namespace AutoCursorMover
         private ToolStripMenuItem trayMenuStop;
         #endregion
 
-        private int screenWidth = 0;
-        private int screenHeight = 0;
-
-        private Timer moveTimer = new Timer();
-        private Random rand = new Random();
-        private uint cycleTime = 0;
+        private Timer PressTimer = new Timer();
+        private uint cycleTime = 1;
         private uint remainTime = 0;
 
-        public Form1()
+        private bool isWaitingForKey = false;
+        private Keys inputKey = Keys.Pause;
+
+        public MainForm()
         {
             InitializeComponent();
 
@@ -63,7 +33,7 @@ namespace AutoCursorMover
             trayMenu.Items.Add("Exit", null, OnExit);
 
             trayIcon = new NotifyIcon();
-            trayIcon.Text = "AutoCursorMover";
+            trayIcon.Text = "AutoKeyPresser";
             trayIcon.Icon = Icon;
             trayIcon.ContextMenuStrip = trayMenu;
             trayIcon.DoubleClick += OnOpen;
@@ -72,36 +42,45 @@ namespace AutoCursorMover
             trayMenuStop = trayMenu.Items.OfType<ToolStripMenuItem>().FirstOrDefault(item => item.Text == "STOP");
             trayMenuStop.Checked = true;
 
-            screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
             cycleTime = uint.Parse(textBox1.Text);
 
-            moveTimer.Interval = 1000;
-            moveTimer.Tick += (s, ev) =>
+            PressTimer.Interval = 1000;
+            PressTimer.Tick += (s, ev) =>
             {
                 remainTime--;
                 label3.Text = remainTime.ToString();
 
                 if (remainTime < 1)
                 {
-                    MoveCursor();
+                    PressKey();
                     remainTime = cycleTime;
                     label3.Text = remainTime.ToString();
                 }
             };
 
+            button3.Text = inputKey.ToString();
+
+            button3.Click += button3_Click;
             KeyDown += Form1_KeyDown;
             textBox1.TextChanged += TextBox1_TextChanged;
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            isWaitingForKey = true;
+            button3.Text = "Press Key...";
+            button3.BackColor = System.Drawing.Color.SkyBlue;
+            button3.Focus();
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F1)
+            if (isWaitingForKey)
             {
-                AboutForm aboutForm = new AboutForm();
-                aboutForm.Location = new Point(Location.X + Size.Width, Location.Y + (Size.Height/2 - aboutForm.Height/2));
-                aboutForm.Show();
+                isWaitingForKey = false;
+                inputKey = e.KeyCode;
+                button3.Text = $"{inputKey}";
+                button3.BackColor = System.Drawing.Color.White;
             }
         }
 
@@ -156,29 +135,41 @@ namespace AutoCursorMover
             base.OnFormClosing(e);
         }
 
-        private void MoveCursor()
+        private void PressKey()
         {
-            int x = rand.Next(0, screenWidth);
-            int y = rand.Next(0, screenHeight);
+            string keyString;
 
-            int dx = (x * 65535 / screenWidth);
-            int dy = (y * 65535 / screenHeight);
+            if ((inputKey >= Keys.D0 && inputKey <= Keys.D9))
+            {
+                keyString = inputKey.ToString().Replace("D", "");
+            }
+            else if (inputKey >= Keys.NumPad0 && inputKey <= Keys.NumPad1)
+            {
+                keyString = inputKey.ToString().Replace("NumPad", "");
+            }
+            else
+            {
+                switch (inputKey)
+                {
+                    case Keys.Pause: keyString = "{BREAK}"; break;
+                    case Keys.Enter: keyString = "{ENTER}"; break;
+                    case Keys.Back: keyString = "{BACKSPACE}"; break;
+                    case Keys.Escape: keyString = "{ESC}"; break;
+                    case Keys.Space: keyString = " "; break;
+                    default:
+                        keyString = inputKey.ToString();
+                        if (keyString.Length > 1)
+                            keyString = "{" + keyString.ToUpper() + "}";
+                        break;
+                }
+            }
 
-            INPUT[] inputs = new INPUT[1];
-            inputs[0].type = INPUT_MOUSE;
-            inputs[0].mi.dx = dx;
-            inputs[0].mi.dy = dy;
-            inputs[0].mi.mouseData = 0;
-            inputs[0].mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
-            inputs[0].mi.time = 0;
-            inputs[0].mi.dwExtraInfo = IntPtr.Zero;
-
-            SendInput(1, inputs, Marshal.SizeOf(typeof(INPUT)));
+            SendKeys.SendWait(keyString);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(textBox1.Text == "")
+            if (textBox1.Text == "")
             {
                 return;
             }
@@ -189,18 +180,18 @@ namespace AutoCursorMover
             trayMenuStart.Checked = true;
             trayMenuStop.Checked = false;
 
-            StartMove();
+            StartTimer();
         }
 
-        async void StartMove()
+        async void StartTimer()
         {
             await Task.Delay(1000);
-            MoveCursor();
+            PressKey();
 
             remainTime = cycleTime;
             label3.Text = remainTime.ToString();
 
-            moveTimer.Start();
+            PressTimer.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -212,7 +203,7 @@ namespace AutoCursorMover
             trayMenuStart.Checked = false;
             trayMenuStop.Checked = true;
 
-            moveTimer.Stop();
+            PressTimer.Stop();
         }
     }
 }

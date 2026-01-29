@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.36422.26
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCursorMover", "WindowsFormsApp1\AutoCursorMover.csproj", "{A5182012-C6AB-4948-827C-BC75D8520926}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoKeyPresser", "AutoKeyPresser\AutoKeyPresser.csproj", "{20135BF3-26C8-4AEC-99C8-3C69B8F0AEB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCursorMover", "AutoCursorMover\AutoCursorMover.csproj", "{29F03147-6828-4793-B81E-E9E0D6A4D038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A5182012-C6AB-4948-827C-BC75D8520926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5182012-C6AB-4948-827C-BC75D8520926}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5182012-C6AB-4948-827C-BC75D8520926}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5182012-C6AB-4948-827C-BC75D8520926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20135BF3-26C8-4AEC-99C8-3C69B8F0AEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20135BF3-26C8-4AEC-99C8-3C69B8F0AEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20135BF3-26C8-4AEC-99C8-3C69B8F0AEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20135BF3-26C8-4AEC-99C8-3C69B8F0AEB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29F03147-6828-4793-B81E-E9E0D6A4D038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29F03147-6828-4793-B81E-E9E0D6A4D038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29F03147-6828-4793-B81E-E9E0D6A4D038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29F03147-6828-4793-B81E-E9E0D6A4D038}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

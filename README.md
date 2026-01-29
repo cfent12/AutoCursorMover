@@ -7,3 +7,5 @@
   - STOP button : Stop mouse cursor ramdom position moving
   - Minimize button : Move system tray
   - Press F1 : Show icon source
+
++ Added AutoKeyPresser

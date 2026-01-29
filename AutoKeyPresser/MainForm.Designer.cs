@@ -1,7 +1,7 @@
 ﻿
-namespace AutoCursorMover
+namespace AutoKeyPresser
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -29,7 +29,7 @@ namespace AutoCursorMover
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,13 +39,15 @@ namespace AutoCursorMover
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button1.Location = new System.Drawing.Point(16, 86);
+            this.button1.Location = new System.Drawing.Point(16, 120);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 52);
             this.button1.TabIndex = 0;
@@ -56,7 +58,7 @@ namespace AutoCursorMover
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button2.Location = new System.Drawing.Point(140, 86);
+            this.button2.Location = new System.Drawing.Point(140, 120);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(125, 52);
             this.button2.TabIndex = 1;
@@ -143,12 +145,36 @@ namespace AutoCursorMover
             this.panel1.Size = new System.Drawing.Size(83, 22);
             this.panel1.TabIndex = 8;
             // 
-            // Form1
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.ForeColor = System.Drawing.SystemColors.Control;
+            this.label6.Location = new System.Drawing.Point(78, 82);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(49, 21);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "KEY :";
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.White;
+            this.button3.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.button3.Location = new System.Drawing.Point(141, 81);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(124, 28);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "KEY";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.MidnightBlue;
-            this.ClientSize = new System.Drawing.Size(277, 156);
+            this.ClientSize = new System.Drawing.Size(277, 191);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -161,10 +187,8 @@ namespace AutoCursorMover
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MaximumSize = new System.Drawing.Size(293, 195);
-            this.MinimumSize = new System.Drawing.Size(293, 195);
-            this.Name = "Form1";
-            this.Text = "Auto Cursor Mover";
+            this.Name = "MainForm";
+            this.Text = "Auto Key Presser";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -183,6 +207,8 @@ namespace AutoCursorMover
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button3;
     }
 }
 
