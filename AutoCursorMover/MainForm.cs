@@ -64,7 +64,7 @@ namespace AutoCursorMover
 
             trayIcon = new NotifyIcon();
             trayIcon.Text = "AutoCursorMover";
-            trayIcon.Icon = Properties.Resources.cursor_on;
+            trayIcon.Icon = Properties.Resources.cursor_off;
             trayIcon.ContextMenuStrip = trayMenu;
             trayIcon.DoubleClick += OnOpen;
 
