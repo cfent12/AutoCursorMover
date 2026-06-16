@@ -28,8 +28,8 @@ namespace AutoKeyPresser
 
             trayMenu = new ContextMenuStrip();
             trayMenu.Items.Add("Open", null, OnOpen);
-            trayMenu.Items.Add("START", null, button1_Click);
-            trayMenu.Items.Add("STOP", null, button2_Click);
+            trayMenu.Items.Add("START", null, btnStart_Click);
+            trayMenu.Items.Add("STOP", null, btnStop_Click);
             trayMenu.Items.Add("Exit", null, OnExit);
 
             trayIcon = new NotifyIcon();
@@ -61,7 +61,7 @@ namespace AutoKeyPresser
             button3.Text = inputKey.ToString();
 
             button3.Click += button3_Click;
-            KeyDown += Form1_KeyDown;
+            KeyDown += MainForm_KeyDown;
             textBox1.TextChanged += TextBox1_TextChanged;
         }
 
@@ -73,7 +73,7 @@ namespace AutoKeyPresser
             button3.Focus();
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (isWaitingForKey)
             {
@@ -167,7 +167,7 @@ namespace AutoKeyPresser
             SendKeys.SendWait(keyString);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnStart_Click(object sender, EventArgs e)
         {
             if (textBox1.Text == "")
             {
@@ -194,7 +194,7 @@ namespace AutoKeyPresser
             PressTimer.Start();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnStop_Click(object sender, EventArgs e)
         {
             label2.ForeColor = System.Drawing.Color.Crimson;
             label2.Text = "STOP";
